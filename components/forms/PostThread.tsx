@@ -19,6 +19,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { usePathname, useRouter } from "next/navigation"
 // import { updateUser } from "@/lib/actions/user.actions"
 import { ThreadValidation } from "@/lib/validations/thread"
+import { createThread } from "@/lib/actions/thread.actions"
+import { getRandomValues } from "crypto"
 
 
 interface Props {
@@ -52,21 +54,32 @@ const PostThread = ({ userId }: { userId: string }) => {
             accountId: userId,
         }
     })
+
+    const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
+        await createThread({
+            text: values.thread,
+            author: userId,
+            communityId: null,
+            path: pathname
+
+        })
+        router.push('/')
+    }
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col justify-start gap-10">
+                className="mt-10 flex flex-col justify-start gap-10">
                 <FormField
                     control={form.control}
-                    name="name"
+                    name="thread"
                     render={({ field }) => (
                         <FormItem className="flex  flex-col gap-3 w-full">
                             <FormLabel className="text-base-semibold text-light-2">
-                                Name
+                                Content
                             </FormLabel>
-                            <FormControl >
-                                <Input
-                                    type="text"
+                            <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
+                                <Textarea
+                                    rows={15}
                                     placeholder={field.name}
                                     className="account-form_input"
                                     {...field} />
@@ -76,6 +89,7 @@ const PostThread = ({ userId }: { userId: string }) => {
 
                     )}
                 />
+                <Button type="submit" className="bg-primary-500"> Post Thread</Button>
             </form>
         </Form>
     )
