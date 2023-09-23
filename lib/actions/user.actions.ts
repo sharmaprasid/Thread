@@ -11,6 +11,21 @@ interface Params {
   image: string;
   path: string;
 }
+export async function fetchUser(userId:string){
+    try {
+        DB();
+        await User.findOne({id:userId})
+        // .populate({
+        //     path:'communities',
+        //     model:Community
+        // })
+       
+        
+    } catch (error:any) {
+        throw new Error(`Error Fetching user:${error.message}`)
+        
+    }
+}
 export async function updateUser({
     userId,
   bio,

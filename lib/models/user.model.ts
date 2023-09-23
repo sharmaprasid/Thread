@@ -16,18 +16,18 @@ const userSchema=new mongoose.Schema({
     },
     image:String,
     bio:String,
-    // threads:[{
-    //     types:mongoose.Types.ObjectId,
-    //     ref:'Thread'
-    // }],
+    threads:[{
+        types:mongoose.Types.ObjectId,
+        ref:'Thread'
+    }],
     onboarded:{
         type:Boolean,
         default:false
     },
-    // communities:[{
-    //     types:mongoose.Types.ObjectId,
-    //     ref:'Community'
-    // }],
+    communities:[{
+        types:mongoose.Types.ObjectId,
+        ref:'Community'
+    }],
 
 })
 const User=mongoose.models.User||mongoose.model("User",userSchema);
